@@ -1,18 +1,29 @@
 <?php
-require ('config/ConfigApp.php');
 require ('controller/ComponentesController.php');
 require ('controller/FormulasController.php');
 
 $c_componentes = new ComponentesController();
 $c_formulas = new FormulasController();
 
-$controllers = ['Componentes' =>  $c_componentes, 'Formulas' =>  $c_formulas];
+$CONTROLLERS = ['Componentes' =>  $c_componentes, 'Formulas' =>  $c_formulas];
+$ACTION = "action";
+$ACTIONS = [
+    'home' =>  "Componentes",
+    'mostrar_componente' =>  "Componentes",
+    'eliminar_componente' =>  "Componentes",
+    'agregar_componente' =>  "Componentes",
+    'eliminar_formula' =>  "Formulas",
+    'agregar_formula' =>  "Formulas",
+    'mostrar_formula' =>  "Formulas"
+];
 
-if (array_key_exists(ConfigApp::$ACTION,$_REQUEST) && array_key_exists($_REQUEST[ConfigApp::$ACTION], ConfigApp::$ACTIONS)){
-    $action = $_REQUEST[ConfigApp::$ACTION];
-    $nombreController = ConfigApp::$ACTIONS[$action];
-    $controllers[$nombreController]->{$action}();
+
+if (array_key_exists($ACTION,$_REQUEST) && array_key_exists($_REQUEST[$ACTION], $ACTIONS)){
+    $action = $_REQUEST[$ACTION];
+    $controllerName = $ACTIONS[$action];
+    $CONTROLLERS[$controllerName]->{$action}();
 } else {
+    // No existe la Action entonces mustro la Home
     $c_componentes->iniciar();
 }
  ?>
