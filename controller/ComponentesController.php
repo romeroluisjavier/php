@@ -34,6 +34,10 @@ class ComponentesController{
     echo __METHOD__;
     $this->iniciar();
   }
+
+  function mostrar_componentes() {
+    echo "Calculadora Cientifica, Calculadora Simple";
+  }
  
 }
 

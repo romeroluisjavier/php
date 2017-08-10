@@ -5,25 +5,21 @@ require ('controller/FormulasController.php');
 $c_componentes = new ComponentesController();
 $c_formulas = new FormulasController();
 
-$CONTROLLERS = ['Componentes' =>  $c_componentes, 'Formulas' =>  $c_formulas];
-$ACTION = "action";
-$ACTIONS = [
-    'home' =>  "Componentes",
-    'mostrar_componente' =>  "Componentes",
-    'eliminar_componente' =>  "Componentes",
-    'agregar_componente' =>  "Componentes",
-    'eliminar_formula' =>  "Formulas",
-    'agregar_formula' =>  "Formulas",
-    'mostrar_formula' =>  "Formulas"
-];
-
-
-if (array_key_exists($ACTION,$_REQUEST) && array_key_exists($_REQUEST[$ACTION], $ACTIONS)){
-    $action = $_REQUEST[$ACTION];
-    $controllerName = $ACTIONS[$action];
-    $CONTROLLERS[$controllerName]->{$action}();
-} else {
-    // No existe la Action entonces mustro la Home
-    $c_componentes->iniciar();
+if($_GET['action'] == ''){
+    //no hay accion, hago la accion por defecto
+    $c_formulas->mostrar_formulas();
 }
+else{
+    //parseo (separo) la URL
+    $partesURL = explode ("/",$_GET['action']);
+    //leo la URL para entender que tengo que hacer
+    if($partesURL[0] === 'componentes') {
+        $c_componentes->mostrar_componentes();
+    } elseif($partesURL[0] === 'formulas') {
+        $c_formulas->mostrar_formulas();
+    } elseif($partesURL[0] === 'formula') {
+        $c_formulas->mostrar_formula_by_id($partesURL[1]);
+    }
+}
+
  ?>
